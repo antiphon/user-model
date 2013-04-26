@@ -1,0 +1,6 @@
+Title:
+ - 'Probabilistic user model for intelligent machines'
+ - 'User model in information retrieval applications'
+
+
+ 
