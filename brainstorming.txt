@@ -3,3 +3,6 @@ Title:
  - 'User model in information retrieval applications'
  - 'User modeling: A Bayesian Perspective'
  
+
+- Buzzwords:
+ - human-in-the-loop
