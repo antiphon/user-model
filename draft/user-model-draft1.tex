@@ -77,8 +77,61 @@ affect only the system's internal operation. Therefore the solution
 has two edges, connecting the information need with the items through
 relevance (Figure~\ref{fig:graph2}).
 
+Having fixed the dependency structure of the three components, the
+next step is to argue the direction of the effects ...
 
+\begin{marginfigure}%
+\begin{tikzpicture}[node distance=5em]
+  \node (theta) {$\theta$};
+  \node[right of=theta] (rel) {$r_i$};
+  
+  \draw[->] (theta) -- (rel);
+\end{tikzpicture}
 
+\noindent\begin{tikzpicture}[node distance=5em]
+  \node (theta) {$\theta$};
+  \node[right of=theta] (rel) {$r_i$};
+  
+  \draw[<-] (theta) -- (rel);
+\end{tikzpicture}
+\caption{Possible effect directions between information need and
+  relevance.}
+\label{fig:graph3}
+\end{marginfigure}
+
+\begin{marginfigure}%
+\begin{tikzpicture}[node distance=5em]
+  \node (doc) {$x_i$};
+  \node[right of=theta] (rel) {$r_i$};
+  
+  \draw[->] (doc) -- (rel);
+\end{tikzpicture}
+
+\noindent\begin{tikzpicture}[node distance=5em]
+  \node (doc) {$x_i$};
+  \node[right of=doc] (rel) {$r_i$};
+  
+  \draw[<-] (doc) -- (rel);
+\end{tikzpicture}
+\caption{Possible effect directions between documents and
+  relevance.}
+\label{fig:graph4}
+\end{marginfigure}
+
+The final solution then is ...
+
+\begin{marginfigure}%
+\noindent\begin{tikzpicture}[node distance=5em]
+ \node[] (doc) {$x_i$};
+  \node[above right of=doc] (rel) {$r_i$};
+  \node[above left of=doc] (theta) {$\theta$};
+
+  \draw[->] (doc) -- (rel);
+  \draw[->] (theta) -- (rel);
+\end{tikzpicture}
+\caption{Final solution.}
+\label{fig:graph5}
+\end{marginfigure}
 
 
 \section{Properties}
