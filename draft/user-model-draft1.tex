@@ -37,7 +37,7 @@ Last component is the representation of relevance, expressed as a variable $r\in
 \subsection{Solution}
 The three components are now connected to make the dependency graph of a solution. Note that the minimal solution graph has at least two edges, as any less would render a component independent of the other two and our problem definition redundant.
 
-The complete graph is not useful: consider the two possible cases of effect. If the user's information need would affect the feature representation, the change of a user would violate the first assumption of a known collection. Vice versa if the feature representation should only affect the system's internal operation and not affect what the user is looking for. Therefore the solution has two edges, connecting the information need with the items through relevance.
+The complete graph is not useful: consider the two possible cases of effect. If the user's information need would affect the feature representation, the change of a user would violate the first assumption of a known collection. Vice versa the feature representation should not affect what the user is looking for, but affect only the system's internal operation. Therefore the solution has two edges, connecting the information need with the items through relevance.
 
 \begin{figure}[h]
   \includegraphics[width=2in]{empty}
