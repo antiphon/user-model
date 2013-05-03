@@ -1,4 +1,6 @@
-\documentclass[10pt]{article}
+%\documentclass[10pt]{article}
+\documentclass[10pt]{tufte-handout}
+
 
 \usepackage[utf8]{inputenc}
 \renewcommand*{\familydefault}{\sfdefault}
@@ -7,7 +9,9 @@
 \usepackage{hyperref}       
 \usepackage{amsmath, amssymb}
 
-\usepackage{fullpage}
+%\usepackage{fullpage}
+
+\usepackage{tikz}
 
 
 \title{A probabilistic user model for information retrieval}
@@ -37,13 +41,43 @@ Last component is the representation of relevance, expressed as a variable $r\in
 \subsection{Solution}
 The three components are now connected to make the dependency graph of a solution. Note that the minimal solution graph has at least two edges, as any less would render a component independent of the other two and our problem definition redundant.
 
-The complete graph is not useful: consider the two possible cases of effect. If the user's information need would affect the feature representation, the change of a user would violate the first assumption of a known collection. Vice versa the feature representation should not affect what the user is looking for, but affect only the system's internal operation. Therefore the solution has two edges, connecting the information need with the items through relevance.
+\begin{marginfigure}%
+\begin{tikzpicture}[node distance=5em]
+  \node[] (doc) {$x_i$};
+  \node[above right of=doc] (rel) {$r_i$};
+  \node[above left of=doc] (theta) {$\theta$};
 
-\begin{figure}[h]
-  \includegraphics[width=2in]{empty}
-  \caption{Graphical representation of the minimal component solution.}
-  \label{fig:connections1}
-\end{figure}
+  \draw[] (theta) -- node [left] {1.} (doc);
+  \draw[] (doc) -- node [right] {2.} (rel);
+  \draw[] (theta) -- node [above] {3.} (rel);
+\end{tikzpicture}
+\caption{Complete graph.}
+\label{fig:graph1}
+\end{marginfigure}
+
+\begin{marginfigure}%
+\begin{tikzpicture}[node distance=5em]
+  \node[] (doc) {$x_i$};
+  \node[above right of=doc] (rel) {$r_i$};
+  \node[above left of=doc] (theta) {$\theta$};
+
+  \draw[] (doc) -- (rel);
+  \draw[] (theta) -- (rel);
+\end{tikzpicture}
+\caption{Solution graph.}
+\label{fig:graph2}
+\end{marginfigure}
+
+The complete graph (Figure~\ref{fig:graph1}) is not useful: consider
+the two possible cases of effect. If the user's information need would
+affect the feature representation, the change of a user would violate
+the first assumption of a known collection. Vice versa the feature
+representation should not affect what the user is looking for, but
+affect only the system's internal operation. Therefore the solution
+has two edges, connecting the information need with the items through
+relevance (Figure~\ref{fig:graph2}).
+
+
 
 
 
