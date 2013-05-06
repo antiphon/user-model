@@ -32,9 +32,9 @@ An information retrieval system needs to solve the problem of incomplete knowled
 
 First component is a known collection $C$ of retrieval items. Each item in the collection $d_i \in C$ must have a quantification: Call such quantification the feature representation $x_i\in \mathcal X$ with some [metric] space $\mathcal X$. 
 
-For example, a piece of music can be described by the artist, title and record labels, each represented as value 1 of a corresponding binary variable in the joint space of all possible artist, title and record names. 
+For example, a piece of music can be described by the artist, title and record labels, each represented as value 1 of a corresponding binary variable in the joint space of all possible artist, title and record names.
 
-Second component is the representation of information need. This can be formalized by equating the information need $\theta$ with a distribution in the feature space. For example with some parametric distribution family we would set $P(event\ A) = \int_A f_\theta (x) dx$ where the parameters define the 
+Second component is the representation of information need. This can be formalized by equating the information need $\theta$ with a distribution in the feature space. For example with some parametric distribution family $p_\theta$ we would set $P(event\ A) = \int_A p_\theta (x) dx$.
 
 Last component is the representation of relevance, expressed as a variable $r\in \mathbb R$, often defined only on the unit interval. A typical choice interprets the value 0 as 'not relevant' and 1 as 'relevant'. Binary choice is often made, with the downside of losing e.g. interpretation of a value 0.5 as 'irrelevant', and so forth.
 
@@ -69,7 +69,7 @@ The three components are now connected to make the dependency graph of a solutio
 \end{marginfigure}
 
 The complete graph (Figure~\ref{fig:graph1}) is not useful: consider
-the two possible cases of effect. If the user's information need would
+the two possible cases of interaction. If the user's information need would
 affect the feature representation, the change of a user would violate
 the first assumption of a known collection. Vice versa the feature
 representation should not affect what the user is looking for, but
@@ -78,7 +78,7 @@ has two edges, connecting the information need with the items through
 relevance (Figure~\ref{fig:graph2}).
 
 Having fixed the dependency structure of the three components, the
-next step is to argue the direction of the effects ...
+next step is to argue the direction of the effects. Consider the interaction between $\theta$ and $r_i$ (Figure~\ref{fig:graph3}). Natural direction of effect is that infromation need defines what is the relevance of an item. The other direction would imply that the items have some user independent state of relevance, and hence the system would not be providing the user relevant documents, but penalize users with non-relevant needs (T: not good... need more thought).
 
 \begin{marginfigure}%
 \begin{tikzpicture}[node distance=5em]
@@ -99,6 +99,8 @@ next step is to argue the direction of the effects ...
 \label{fig:graph3}
 \end{marginfigure}
 
+Similarly in Figure~\ref{fig:graph4}, if the fixed collection of items is modelled by their relevances, it implies that each document would have a different representation when the document's relevance is changed.
+
 \begin{marginfigure}%
 \begin{tikzpicture}[node distance=5em]
   \node (doc) {$x_i$};
@@ -118,7 +120,7 @@ next step is to argue the direction of the effects ...
 \label{fig:graph4}
 \end{marginfigure}
 
-The final solution then is ...
+The final solution proposed models the relevance variable as a function of information need and item features (Figure~\ref{fig:graph5}). In probabilistic form the model is written as $p(r_i|\theta, x_i)$.
 
 \begin{marginfigure}%
 \noindent\begin{tikzpicture}[node distance=5em]
@@ -138,12 +140,13 @@ The final solution then is ...
 
 In this section we have interpretation of higher level quantities. Session, information drift, precision-recall, feedback.
 
-Session:
+Assumption of a session translates in the proposed model to time-stationary or constant information need during the  user's system operation time. The relevances are  also stationary/constant in a session, and the problem reduces to a standard statistical estimation using all available data during each session. The difficult problem of session boundary detection translates to change point detection in the value of $\theta$.
 
 Precision-recall:
 
 Feedback: implicit, explicit, pseudo
 
+The conditional nature of the solution: User's information need given the feature space and collection. Does it match the problem.
 
 \section{Examples}
 
