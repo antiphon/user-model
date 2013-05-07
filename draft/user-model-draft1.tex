@@ -78,7 +78,7 @@ has two edges, connecting the information need with the items through
 relevance (Figure~\ref{fig:graph2}).
 
 Having fixed the dependency structure of the three components, the
-next step is to argue the direction of the effects. Consider the interaction between $\theta$ and $r_i$ (Figure~\ref{fig:graph3}). Natural direction of effect is that infromation need defines what is the relevance of an item. The other direction would imply that the items have some user independent state of relevance, and hence the system would not be providing the user relevant documents, but penalize users with non-relevant needs (T: not good... need more thought).
+next step is to argue effect direction. Consider the interaction between $\theta$ and $r_i$ (Figure~\ref{fig:graph3}). Natural direction of effect is that infromation need defines what is the relevance of an item. The other direction would imply that the items have some user independent state of relevance, and hence the system would not be providing the user relevant documents, but penalize users with non-relevant needs (T: not good... need more thought).
 
 \begin{marginfigure}%
 \begin{tikzpicture}[node distance=5em]
@@ -140,13 +140,22 @@ The final solution proposed models the relevance variable as a function of infor
 
 In this section we have interpretation of higher level quantities. Session, information drift, precision-recall, feedback.
 
-Assumption of a session translates in the proposed model to time-stationary or constant information need during the  user's system operation time. The relevances are  also stationary/constant in a session, and the problem reduces to a standard statistical estimation using all available data during each session. The difficult problem of session boundary detection translates to change point detection in the value of $\theta$.
+\subsection{Definitions of consepts in IR systems}
+A session is a bounded continuous period of system use during which the information need is not changed. Assumption of a constant information need $\theta$ over the session implies constant item relevances and the IR problem is solved by statistical estimation using all data gathered during the session. The problem of session boundary detection is solved by change-point detection in the value of $\theta$. 
 
-Precision-recall:
+Alternative to a fixed $\theta$ is a drifting or shifting information need, reflecting the user's learning or remembering over time. To define a session in such a case requires an extra variable $\Theta$ for the task involving the retrieval. Then $(\theta_t)_{t=1}^T$ is an (autocorrelated) realisation of $\Theta$ over time, i.e. a process approach is needed.
 
-Feedback: implicit, explicit, pseudo
+The information need is not possible to be observed in full as this would negate the need for retrieval ('retrieve exactly this' is redundant). Querying, item or feature rating and other data collection mechanisms built to the user interface are inprecise and constrained ways for the system to get hints of the information need $\theta$. Each mechanism is to be modelled individually as a variable dependent on the information need. For example, query strings and relevance feedback clicks on ranked items are both stochastic expressions of the same underlying $\theta$.
+
+
+
+History data, borrowing from other users, pseudo feedback.
+
+Evaluation of the retrieval: precision-recall, diversity, etc.
 
 The conditional nature of the solution: User's information need given the feature space and collection. Does it match the problem.
+
+\subsection{Latent variable model and Bayesian inference}
 
 \section{Examples}
 
