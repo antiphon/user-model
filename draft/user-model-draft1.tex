@@ -13,6 +13,8 @@
 
 \usepackage{tikz}
 
+\parindent0pt
+\parskip5pt
 
 \title{A probabilistic user model for information retrieval}
 \author{A1, A2}
@@ -25,11 +27,13 @@
 \end{abstract}
 
 \section{Introduction}
+{\it Information retrieval is the activity of obtaining information resources relevant to an information need from a collection of information resources.} -WP
 
-What IR is not: recommender systems, 'proactive' (=recommender systems), browsing, 
+{\it Information retrieval (IR) is finding material (usually documents) of an unstructured nature (usually text) that satisfies an information need from within large collections (usually stored on computers).} - http://nlp.stanford.edu/IR-book/html/htmledition/irbook.html
 
-The continuum from exact item match to exploration of new consepts. Where to draw the line between IR and browsing. Or should such a line be drawn?
+What IR is not in this paper: recommender systems, 'proactive' (=recommender systems), browsing, filtering.
 
+The continuum from exact item match to exploration of new consepts. Where to draw the line between IR and browsing.
 
 
 
@@ -40,13 +44,11 @@ Definitions in literature, common denominator at a conceptual level.
 \subsection{Problem}
 An information retrieval system needs to solve the problem of incomplete knowledge of user's information need. Key components must be defined in order to realize any such system.
 
-First component is a known collection $C$ of retrieval items. Each item $i \in C$ in the collection must have a quantification: Call such quantification the feature representation $x_i\in \mathcal X$ with some [metric] space $\mathcal X$. 
+First component is a known collection $C$ of retrieval items. Each item $i \in C$ in the collection must have a quantification: Call such quantification the feature representation $x_i\in \mathcal X$ in some suitable space $\mathcal X$. For example, a piece of music can be described by the artist, title and record labels, each represented as value 1 of a corresponding binary variable in the joint space of all possible artist, title and record names, together with other features such as length, bitrate, spectral moments etc.
 
-For example, a piece of music can be described by the artist, title and record labels, each represented as value 1 of a corresponding binary variable in the joint space of all possible artist, title and record names. 
+Second component is the representation of information need. This can be formalized by equating the information need $\theta$ with a distribution in the feature space. For example, with some parametric distribution family $p_\theta$ we would set $P(event\ A) = \int_A p_\theta (x) dx$.
 
-Second component is the representation of information need. This can be formalized by equating the information need $\theta$ with a distribution in the feature space. For example with some parametric distribution family $p_\theta$ we would set $P(event\ A) = \int_A p_\theta (x) dx$.
-
-Last component is the representation of item relevance, expressed as a scalar variable $r_i\in \mathbb R$. A typical choice interprets low value as 'not relevant' and high value as 'relevant'. The unit interval is common, and even the binary model is used with the downside of e.g. losing 0.5 as 'irrelevant'.
+Third component is the representation of item relevance, expressed as a scalar variable $r_i\in \mathbb R$. A typical choice interprets low value as 'not relevant' and high value as 'relevant'. The unit interval is common, and even the binary model is often used, with the downside of e.g. losing 0.5 as 'irrelevant'.
 
 Assume also that the collection is too big or that items are too complicated to simply visualize the entire collection.
 
@@ -145,6 +147,8 @@ The final solution models the relevance variable as a function of information ne
 \label{fig:graph5}
 \end{marginfigure}
 
+\subsection{Data collection}
+
 
 \section{Properties}
 
@@ -155,13 +159,13 @@ A session is a bounded and continuous period of system use. Assumption of a cons
 
 Alternative to a fixed $\theta$ is a drifting or shifting information need, reflecting the user's learning or remembering over time. To define a session in such a case requires an extra variable $\Theta$ to represent the larger task involving the information retrieval task. Then $(\theta_t)_{t=1}^T$ is an (autocorrelated) realisation of $\Theta$ over time, i.e. a process approach is needed.
 
-The information need is not possible to be observed in full as this would negate the need for probabilistic retrieval ('retrieve exactly this' is redundant). Querying, item rating and other data collection mechanisms built to the user interface are inprecise and constrained ways for user to give the system some hints of the information need $\theta$. Each mechanism is to be modelled individually as a variable dependent on the information need. For example, query strings and relevance feedback clicks on ranked items are both stochastic expressions originating from the same underlying $\theta$.
+The information need is not possible to be observed in full as this would negate the need for probabilistic retrieval ('retrieve exactly this' is redundant). Querying, item rating and other data collection mechanisms built to the user interface are inprecise and constrained ways for user to give the system some hints of the information need $\theta$. Each mechanism is to be modelled individually as a variable dependent on the information need. For example, query strings and relevance feedback clicks on ranked items are both stochastic expressions originating from the same underlying $\theta$, but their execution mechanisms and information contents are different.
 
-To minimize the user's burden of providing hints other sources of data are often used. The user's previous sessions can be used, with some weighting scheme to account for information need jumps and shifts between sessions.
+Extra-session sources of data are often used to minimize the user's burden of providing hints. The user's previous sessions can be used as additional data, with some weighting scheme to account for information need jumps and shifts between sessions.
 
-Profiles can be build using some classification rules on user's previous session data. The idea is to build a set of hypothetical states $\theta^1, ..., \theta^ms$ in which the user is assumed to be (i.e. reduction of the information need space). In the running session the IR problem is reduced to mixture distribution weight estimation.
+Profiles can be build using some classification rules on user's previous session data. The idea is to build a set of hypothetical states $\theta^1, ..., \theta^m$ which the user is assumed to exhibit. Due to this reduction of the information need space, the running session IR problem is reduced to mixture distribution weight estimation.
 
-Another technique is to borrow data from the records of other users. The system is build on some balance between the population and the individual's information needs. The population homogeneity assumption holds in some applications, e.g. "each person wants high pagerank web search results" is often a valid assumption, but $\theta$ values can be more heterogeneous for any given set of hints in highly personalized applications such as scientific document database retrievals where the users' tasks vary considerably.
+Another technique is to borrow data from other users. The system is build on some balance between the population and the individual's information needs. The population homogeneity assumption holds in some applications, e.g. "each person wants high pagerank web search results" is often a valid assumption, but $\theta$ values can be more heterogeneous for any given set of hints in highly personalized applications such as scientific document database retrievals where the users' tasks vary considerably.
 
 Evaluation of the retrieval: precision-recall, diversity, etc.
 
