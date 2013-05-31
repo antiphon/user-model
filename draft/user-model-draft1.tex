@@ -1,5 +1,5 @@
-%\documentclass[10pt]{article}
-\documentclass[10pt]{tufte-handout}
+\documentclass[10pt]{article}
+%\documentclass[10pt]{tufte-handout}
 
 
 \usepackage[utf8]{inputenc}
@@ -9,21 +9,24 @@
 \usepackage{hyperref}       
 \usepackage{amsmath, amssymb}
 
-%\usepackage{fullpage}
+\usepackage{fullpage}
 
+
+\usepackage{subfigure}
 \usepackage{tikz}
+
 
 \parindent0pt
 \parskip5pt
 
-\title{A probabilistic user model for information retrieval}
+\title{A probabilistic model for information need in information retrieval}
 \author{A1, A2}
 \date{}
 
 \begin{document}
 \maketitle
 \begin{abstract}
- A general level probabilistic user model for information retrieval is derived from the basic problem definition. The model is shown to work on various example scenarios and extensions such as new modes of feedback are discussed.
+ A probabilistic model for information need in information retrieval is derived from the basic problem definition. The model is shown to work on various example scenarios, and extensions such as new modes of feedback are discussed.
 \end{abstract}
 
 \section{Introduction}
@@ -55,8 +58,9 @@ Assume also that the collection is too big or that items are too complicated to 
 \subsection{Solution}
 The three components $ \theta, x_i, r_i$ are now connected to make the dependency graph of a solution. Note that the minimal solution graph has at least two edges, as any less would render a component independent of the other two and our problem definition redundant.
 
-\begin{marginfigure}%
-\begin{tikzpicture}[node distance=5em]
+\begin{figure}%
+\subfigure[All possible interactions between the variables.]{
+\begin{tikzpicture}[node distance=8em]
   \node[] (doc) {$x_i$};
   \node[above right of=doc] (rel) {$r_i$};
   \node[above left of=doc] (theta) {$\theta$};
@@ -65,12 +69,9 @@ The three components $ \theta, x_i, r_i$ are now connected to make the dependenc
   \draw[] (doc) -- node [right] {2.} (rel);
   \draw[] (theta) -- node [above] {3.} (rel);
 \end{tikzpicture}
-\caption{Complete graph.}
-\label{fig:graph1}
-\end{marginfigure}
-
-\begin{marginfigure}%
-\begin{tikzpicture}[node distance=5em]
+}
+\subfigure[Pruned interactions]{
+\begin{tikzpicture}[node distance=8em]
   \node[] (doc) {$x_i$};
   \node[above right of=doc] (rel) {$r_i$};
   \node[above left of=doc] (theta) {$\theta$};
@@ -78,64 +79,31 @@ The three components $ \theta, x_i, r_i$ are now connected to make the dependenc
   \draw[] (doc) -- (rel);
   \draw[] (theta) -- (rel);
 \end{tikzpicture}
-\caption{Solution graph.}
-\label{fig:graph2}
-\end{marginfigure}
-
-The complete graph (Figure~\ref{fig:graph1}) is not useful: consider
-the two possible cases of interaction between $\theta$ and $x_i$. If the user's information need would
-affect the feature representation, the change of a user would violate
-the first assumption of a fixed collection. Vice versa, the feature
-representation should not affect what the user is looking for, but
-affect only the system's internal operation. 
-
-The solution has two edges, connecting the information need with the items through
-relevance (Figure~\ref{fig:graph2}). The next step is to argue effect direction. Consider the interaction between $\theta$ and $r_i$ (Figure~\ref{fig:graph3}). Natural direction of effect is that infromation need defines what is the relevance of an item. The other direction would imply that the items have some user independent state of relevance, and hence the system would not be providing the user relevant item, but penalize users with non-relevant needs (T: not good... need more thought).
-
-\begin{marginfigure}%
-\begin{tikzpicture}[node distance=5em]
-  \node (theta) {$\theta$};
-  \node[right of=theta] (rel) {$r_i$};
-  
-  \draw[->] (theta) -- (rel);
-\end{tikzpicture}
-
-\noindent\begin{tikzpicture}[node distance=5em]
-  \node (theta) {$\theta$};
-  \node[right of=theta] (rel) {$r_i$};
-  
-  \draw[<-] (theta) -- (rel);
-\end{tikzpicture}
-\caption{Possible effect directions between information need and
-  relevance.}
-\label{fig:graph3}
-\end{marginfigure}
-
-Similarly for $x_i$ and $r_i$ (Figure~\ref{fig:graph4}): if the items are modeled using their relevances then each item would have a different representation when relevances change.
-
-\begin{marginfigure}%
-\begin{tikzpicture}[node distance=5em]
-  \node (doc) {$x_i$};
-  \node[right of=theta] (rel) {$r_i$};
-  
-  \draw[->] (doc) -- (rel);
-\end{tikzpicture}
-
-\noindent\begin{tikzpicture}[node distance=5em]
-  \node (doc) {$x_i$};
-  \node[right of=doc] (rel) {$r_i$};
-  
-  \draw[<-] (doc) -- (rel);
-\end{tikzpicture}
-\caption{Possible effect directions between items and
-  relevance.}
-\label{fig:graph4}
-\end{marginfigure}
-
-The final solution models the relevance variable as a function of information need and fixed item features (Figure~\ref{fig:graph5}). In probabilistic form the model is written as $p(r_i|\theta, x_i)$.
-
-\begin{marginfigure}%
-\noindent\begin{tikzpicture}[node distance=5em]
+}
+%\subfigure[Possible effect directions between information need and
+%  relevance.]{
+%\begin{tikzpicture}[node distance=5em]
+%  \node (theta) {$\theta$};
+%  \node[right of=theta] (rel) {$r_i$};
+%  
+%  \draw[->] (theta) -- (rel);
+%\end{tikzpicture}
+%
+%\begin{tikzpicture}[node distance=5em]
+%  \node (theta) {$\theta$};
+%  \node[right of=theta] (rel) {$r_i$};
+%  
+%  \draw[<-] (theta) -- (rel);
+%\end{tikzpicture}
+%}
+%\begin{tikzpicture}[node distance=5em]
+%  \node (doc) {$x_i$};
+%  \node[right of=theta] (rel) {$r_i$};
+%  
+%  \draw[->] (doc) -- (rel);
+%\end{tikzpicture}
+\subfigure[Solution.]{
+\begin{tikzpicture}[node distance=8em]
  \node[] (doc) {$x_i$};
   \node[above right of=doc] (rel) {$r_i$};
   \node[above left of=doc] (theta) {$\theta$};
@@ -143,12 +111,63 @@ The final solution models the relevance variable as a function of information ne
   \draw[->] (doc) -- (rel);
   \draw[->] (theta) -- (rel);
 \end{tikzpicture}
-\caption{Final solution.}
-\label{fig:graph5}
-\end{marginfigure}
+}
+\caption{Derivation of the solution graph.}
+\label{fig:graph1}
+\end{figure}
 
+The complete graph (Figure~\ref{fig:graph1}a) is not useful: consider
+the two possible cases of interaction between $\theta$ and $x_i$. If the user's information need would
+affect the feature representation, the change of a user would violate
+the first assumption of a fixed collection. Vice versa, the feature
+representation should not affect what the user is looking for, but
+affect only the system's internal operation. 
+
+The solution has two edges, connecting the information need with the items through
+relevance (Figure~\ref{fig:graph1}b). The next step is to argue effect direction. Consider the interaction between $\theta$ and $r_i$. Natural direction of effect is that infromation need defines what is the relevance of an item. The other direction would imply that the items have some user independent state of relevance, and hence the system would not be providing the user relevant item, but penalize users with non-relevant needs (T: not good... need more thought).
+
+Similarly for $x_i$ and $r_i$: if the items are modeled using their relevances then each item would have a different representation when relevances change. The final solution models the relevance variable as a function of information need and fixed item features (Figure~\ref{fig:graph1}c). In probabilistic form the model is written as $p(r_i|\theta, x_i)$. 
 \subsection{Data collection}
+In order to estimate the information need $\theta$ some data collection mechanisms are required. For example, a textual query can be entered by the user. Another direct approach is to ask the user some values of $r_i$ on some visualized set of items $i$. In general we presume that data provided by the user is dependent on the information need. Following arguments by   Lavrenko 2004 we presume that all data given by the user is an impresize and constrained stochastic expression of $\theta$, i.e. any use action mechanism $a_\star$ is modelled as $a_\star \sim p(\cdot| \theta)$ (Figure~\ref{fig:graph2}). The form of the user action models depend on the system realisation.
 
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=.35]{figures/user-model.png}
+\caption{Graphical model describing the interactions between information need, item relevance and user actions (or hints).}
+\label{fig:graph2}
+\end{figure}
+
+
+
+%Other sources of data include feature-wise relevance feedback, ordering (preference) feedback, 
+
+%Pseudo-feedback
+
+\subsection{Example systems}
+First example system has the linear item relevance model with coefficients given by the information need, i.e.
+\begin{eqnarray}
+r_i | x_i, \theta & \sim & N(\theta^T x_i, \sigma^2)
+\end{eqnarray}
+As often it suffices to know the relative values of $r_i$, e.g. for presenting ranked lists of results, the $\sigma_2$ parameter can be set to any value or the model can be replaced by the linear function $r_i = \theta^T x_i$. 
+
+Let's assume the user provides an input $y$, e.g. textual query. Several options for connecting the input to the information need now emerge. The naive approach is to relate the input to a relevant item by mapping it to the feature space $y \mapsto x_{y}$, and interpreting $r_y$ and $x_y$ with some high value of $r_y$ as a sample from the item relevance model. The OLS solution $\hat \theta = (x_y x_y^T)^{-1}x_y r_y$ is then used for predicting $r_i$ for the documents. The problem is overparameterised but we omit such details for now. 
+
+If we omit the model details and jump from query to relevances and apply a crude diagonalization approximation of the inverse gives, the system's task is to compute
+\begin{eqnarray}
+r_i/r &=& \sum_k^P x_{yk} x_{ik}\\
+\end{eqnarray} 
+This relates to the popular cosine similarity approach when the vectors are of unit length. The unit length assumption can be inplemented to the statistical model via either suitable choise of $r_i$ values or by tuning $\sigma^2$. 
+
+Second item relevance model is the logistic model
+\begin{eqnarray}
+r_i | x_i, \theta & \sim & Bernoulli(\pi_i)\\
+\log \frac{\pi_i}{1-\pi_i} &=& \theta^T x_i
+\end{eqnarray}
+If the input model now uses the item relevancy model, $r_y=1$ is chosen. More realistic input model is one that accounts for the visualization. Let the system have a ranked list visualization, and assume that the user's input for each item in the list depends inversely on the list position $s_i=1,...$.  To model inputting on each item $i$, define an auxiliary variable $z_i$ for observing relevance feedback on item $i$. The relevance of item $i$ is observed if $z_i=1$, and missing if $z_i=0$. The connection between information need and the input is then given by 
+\begin{eqnarray}
+y & \sim & p(r_y=1 | x_y, \theta) p(z_y=1 | s_y, \theta')
+\end{eqnarray}
+where $\theta'$ was used for generating the visualization (e.g. the previous iteration estimate).  
 
 \section{Properties}
 
@@ -176,6 +195,8 @@ The Bayesian approach, the idea of prior knowledge and how profiling etc. are na
 Borrowing data and the informativeness of a prior.
 
 (T: should the previous subsection descriptions of consepts be here, so the Baysian way could be easily incorporated? Would avoid repetition.)
+\subsection{Comparison to previous definitions of probabilistic IR}
+
 
 
 \section{Examples}
